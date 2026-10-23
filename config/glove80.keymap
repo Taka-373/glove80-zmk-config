@@ -5,15 +5,15 @@
  * 方針
  *   - Cornelius の 4行×12列 を Glove80 の Q行 / A行 / Z行 / 最下段 にそのまま重ねる
  *   - Cornelius で親指が押していた中央4キー（Space×2 / Enter / Backspace）は
- *     Glove80 の親指クラスタ（下段アーチ）に、左右の並び順を保ったまま配置
+ *     Glove80 の親指クラスタ（下段アーチ）に配置（親指の可動域に合わせて並びを調整）
  *   - Glove80 にしか無いキー（F行・数字行・親指上段）は「おまけ」として便利キーを配置
  *   - Glove80 固有の Magic キー（Bluetooth / RGB / ブートローダー）は
  *     Cornelius で重複していた右下の RCtrl の位置へ移設
  *
  * レイヤー
  *   0 BASE  : 通常
- *   1 SYM   : 左親指・内側スペース長押し（Cornelius の LT(1,SPC)）数字・記号・IME
- *   2 FN    : 左親指・外側スペース長押し（Cornelius の LT(2,SPC)）F キー・矢印
+ *   1 SYM   : 左親指・外側スペース長押し（Cornelius の LT(1,SPC)）数字・記号・IME
+ *   2 FN    : 左親指・中央スペース長押し（Cornelius の LT(2,SPC)）F キー・矢印
  *   3 MAGIC : Magic キー長押し（Glove80 標準機能）
  */
 
@@ -98,21 +98,21 @@
         // ------------------------------------------------------------------------------------------------------------------------
         // BASE
         // |  F1  |  F2  |  F3  |  F4  |  F5  |                                                     |  F6  |  F7  |  F8  |  F9  | F10  |
-        // |  `   |  1   |  2   |  3   |  4   |  5   |                                       |  6   |  7   |  8   |  9   |  0   |  =   |
-        // | ESC  |  Q   |  W   |  E   |  R   |  T   |                                       |  Y   |  U   |  I   |  O   |  P   |  -   |
+        // |  `   |  1   |  2   |  3   |  4   |  5   |                                       |  6   |  7   |  8   |  9   |  0   |  -   |
+        // | ESC  |  Q   |  W   |  E   |  R   |  T   |                                       |  Y   |  U   |  I   |  O   |  P   |  =   |
         // | TAB  |  A   |  S   |  D   |  F   |  G   |                                       |  H   |  J   |  K   |  L   |  ;   |  '   |
         // | SHFT |  Z   |  X   |  C   |  V   |  B   | SHFT | CTRL | GUI  | | GUI  | CTRL | SHFT |  N   |  M   |  ,   |  .   |  /   | SHFT |
-        // | CTRL |C+SPC | GUI  | ALT  |FN/SPC|      | ALT  |FN/SPC|SY/SPC| | ENT  | BSPC | ALT  |      | BSPC | ALT  | GUI  | CTRL |MAGIC |
-        //                                             └── 親指下段 = Cornelius 最下段 col3〜col8 と同一 ──┘
+        // | CTRL |C+SPC | GUI  | ALT  |FN/SPC|      |SY/SPC|FN/SPC| ALT  | | ALT  | ENT  | BSPC |      | BSPC | ALT  | GUI  | CTRL |MAGIC |
+        //                                             └── 親指下段（2026-10-23 変更: 左 SYM/FN/Alt・右 Alt/Enter/BkSp）──┘
         // ------------------------------------------------------------------------------------------------------------------------
         base_layer {
             bindings = <
             &kp F1     &kp F2       &kp F3     &kp F4     &kp F5                                                                                            &kp F6     &kp F7     &kp F8     &kp F9     &kp F10
-            &kp GRAVE  &kp N1       &kp N2     &kp N3     &kp N4     &kp N5                                                                      &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp EQUAL
-            &kp ESC    &kp Q        &kp W      &kp E      &kp R      &kp T                                                                       &kp Y      &kp U      &kp I      &kp O      &kp P      &kp MINUS
+            &kp GRAVE  &kp N1       &kp N2     &kp N3     &kp N4     &kp N5                                                                      &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp MINUS
+            &kp ESC    &kp Q        &kp W      &kp E      &kp R      &kp T                                                                       &kp Y      &kp U      &kp I      &kp O      &kp P      &kp EQUAL
             &kp TAB    &kp A        &kp S      &kp D      &kp F      &kp G                                                                       &kp H      &kp J      &kp K      &kp L      &kp SEMI   &kp SQT
             &kp LSHFT  &kp Z        &kp X      &kp C      &kp V      &kp B      &kp LSHFT        &kp LCTRL        &kp LGUI    &kp RGUI  &kp RCTRL  &kp RSHFT  &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT
-            &kp LCTRL  &kp LC(SPACE) &kp LGUI  &kp LALT   &lt_spc FN SPACE      &kp LALT         &lt_spc FN SPACE &lt_spc SYM SPACE   &kp RET   &kp BSPC   &kp RALT              &kp BSPC   &kp RALT   &kp RGUI   &kp RCTRL  &magic MAGIC 0
+            &kp LCTRL  &kp LC(SPACE) &kp LGUI  &kp LALT   &lt_spc FN SPACE      &lt_spc SYM SPACE &lt_spc FN SPACE &kp LALT           &kp RALT  &kp RET    &kp BSPC              &kp BSPC   &kp RALT   &kp RGUI   &kp RCTRL  &magic MAGIC 0
             >;
         };
 
@@ -123,7 +123,7 @@
         // |  `   |  1   |  2   |  3   |  4   |  5   |                                       |  6   |  7   |  8   |  9   |  0   |  =   |
         // |      |  !   |  @   |  #   |  $   |  %   |                                       |  ^   |  &   |  *   |  (   |  )   |  \   |
         // |      |  |   |      |      |      |      |      |      |      | |      |      |      |      |  (   |  )   |  [   |  ]   |  :   |
-        // | 変換 |無変換| かな |      |      |      |      |      |      | | ENT  | BSPC | SPC  |      | BSPC | SPC  |  ,   |  .   |  _   |
+        // | 変換 |無変換| かな |      |      |      |      |      |      | | SPC  | ENT  | BSPC |      | BSPC | SPC  |  ,   |  .   |  _   |
         // ------------------------------------------------------------------------------------------------------------------------
         sym_layer {
             bindings = <
@@ -132,7 +132,7 @@
             &kp GRAVE  &kp N1       &kp N2     &kp N3     &kp N4     &kp N5                                                                      &kp N6     &kp N7     &kp N8     &kp N9     &kp N0     &kp EQUAL
             &trans     &kp EXCL     &kp AT     &kp HASH   &kp DOLLAR &kp PRCNT                                                                   &kp CARET  &kp AMPS   &kp STAR   &kp LPAR   &kp RPAR   &kp BSLH
             &trans     &kp PIPE     &none      &none      &none      &none      &trans           &trans           &trans      &trans    &trans     &trans     &none      &kp LPAR   &kp RPAR   &kp LBKT   &kp RBKT   &kp COLON
-            &kp INT4   &kp INT5     &kp INT2   &trans     &trans                &trans           &trans           &trans      &kp RET   &kp BSPC   &kp SPACE             &kp BSPC   &kp SPACE  &kp COMMA  &kp DOT    &kp UNDER
+            &kp INT4   &kp INT5     &kp INT2   &trans     &trans                &trans           &trans           &trans      &kp SPACE &kp RET    &kp BSPC              &kp BSPC   &kp SPACE  &kp COMMA  &kp DOT    &kp UNDER
             >;
         };
 
